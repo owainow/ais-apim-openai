@@ -89,6 +89,11 @@ module keyVault './modules/security/key-vault.bicep' = {
     managedIdentityName: managedIdentity.outputs.managedIdentityName
     keyVaultDnsZoneName: keyVaultPrivateDnsZoneName
   }
+  dependsOn: [
+
+    dnsDeployment
+
+  ]
 }
 
 module openaiKeyVaultSecret './modules/security/keyvault-secret.bicep' = {
@@ -99,6 +104,12 @@ module openaiKeyVaultSecret './modules/security/keyvault-secret.bicep' = {
     secretName: openaiApiKeySecretName
     openAiName: openAi.outputs.openAiName
   }
+  dependsOn: [
+
+    dnsDeployment
+    keyVault
+
+  ]
 }
 
 module vnet './modules/networking/vnet.bicep' = {
